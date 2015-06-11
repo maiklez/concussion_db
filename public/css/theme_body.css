@@ -1,0 +1,99 @@
+.gm-style-iw {
+width: 130px; 
+}
+
+#Top_bar #logo {
+height: 65px;
+padding: 9px 0px;
+}
+
+#Top_bar .logo {
+margin: 0 30px 0 0px;
+}
+
+.notopmargin {
+margin-top: 0;
+}
+
+.column_map .google-map-contact-wrapper .get_in_touch:after {
+border-top-color: transparent;
+}
+
+.fancy_heading_line .title {
+  color: #444444;
+}
+
+#Top_bar .column {
+  margin-left: 5px;
+}
+
+.mission-statement-column {
+ // font-size: 14px;
+}
+
+.media-centre-entry  {
+  margin-bottom: 20px;
+}
+
+.media-centre-entry .inside h4 {
+  padding-top: 10px;
+}
+
+.fancy_heading .title {
+ font-size: 34px;
+}
+
+#Top_bar .menu > li > a span {
+  text-transform: uppercase;
+}
+
+.mission-statement-subtitle {
+font-size: 30px;
+margin-top: 20px;
+display: block;
+}
+
+#prev-news {
+   margin-bottom: 20px;
+//  font-size: 14px;
+max-height: 999999px;
+}
+
+#post-news {
+   margin-top: 5px;
+ // font-size: 14px;
+max-height: 999999px;
+}
+
+#slogan {
+  padding-bottom: 40px;
+ // font-size: 14px;
+max-height: 999999px;
+}
+
+.column.one.column_fancy_heading {
+margin-bottom: 0px;
+}
+
+.home .column {
+float: left;
+margin: 0 1% 20px;
+}
+
+.content_wrapper, .the_content_wrapper, .mission-statement-column, .column_attr  {
+    /* prevent font boosting on mobile devices */
+    max-height: 999999px;
+}
+
+.the_content_wrapper .image_frame, .the_content_wrapper .wp-caption {
+  margin-bottom: 10px;
+}
+.column_map .google-map-contact-wrapper .get_in_touch { 
+  width: 220px;
+}
+
+.fancy_heading {
+  max-height: 999999px;
+}
+
+
