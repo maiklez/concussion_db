@@ -118,6 +118,28 @@ class ArticlesController extends Controller {
      *
      * @return Response
      */
+    public function getPopulationArticle($article_id)
+    {
+    	// Title
+    	$title = 'Show Article';
+    
+    	// Grab all the users
+    	$user = $this->user;
+    
+    	$article = Article::find($article_id);
+    	// Title
+    	$title = $article->article_title;
+    	
+    	$population = $article->population()->get()->first();
+    
+    	return view('articles/population' , compact('user',  'article',  'title', 'population'));
+    }
+    
+    /**
+     * Show the application dashboard to the user.
+     *
+     * @return Response
+     */
     public function getObjectivesArticle($article_id)
     {
          // Title

@@ -12,6 +12,11 @@
 		<li {{ (Request::is('articles/'.$article->id.'/author*') ? ' class=current_page_item' : '') }} >
 							<a href="{{ url('articles/'.$article->id.'/author') }}">Author</a>
 		</li>
+		
+		<li {{ (Request::is('articles/'.$article->id.'/population*') ? ' class=current_page_item' : '') }} >
+							<a href="{{ url('articles/'.$article->id.'/population') }}">Study Population</a>
+		</li>
+		
 		<li {{ (Request::is('articles/'.$article->id.'/objectives*') ? ' class=current_page_item' : '') }} >
 							<a href="{{ url('articles/'.$article->id.'/objectives') }}">Objectives</a>
 		</li>

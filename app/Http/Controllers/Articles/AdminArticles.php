@@ -9,7 +9,6 @@ use Auth;
 
 use ArticleService;
 
-use App\Http\Requests\ComparativeFormRequest;
 use App\Http\Requests\ArticleCreateFormRequest;
 
 use App\Models\Author\Author;
@@ -18,17 +17,12 @@ use App\Models\ImportCSV\ImportCSV;
 
 use App\Models\Article\Article;
 use App\Models\Article\AgeRange;
-use App\Models\Article\Biomarker;
-use App\Models\Article\Comparative;
-use App\Models\Article\Conclusion;
+use App\Models\Article\SampleSize;
 use App\Models\Article\ImplicationStudy;
 use App\Models\Article\StudyMethod;
 use App\Models\Article\StudyObjectives;
 use App\Models\Article\StudyPopulation;
-use App\Models\Article\StudyResult;
 use App\Models\Article\CommentsInReply;
-use App\Models\Article\Comments;
-use App\Models\Article\StudyRecomendations;
 
 use App\Models\Lists\ArticleClass;
 use App\Models\Lists\ArticleType;
@@ -64,25 +58,17 @@ trait AdminArticles {
         $excelFile = null;
         //$excelFile = \Excel::load($sal)->toObject();
         $errors = [];
-        try{
-            
+        try{            
             $errortmp = ArticleService::importArticles($excelFile);
-            array_push($errors, $errortmp);
-            
+            array_push($errors, $errortmp);            
             //$error_data = new ImportCSV();
 
         }catch(Exception $ex){
             Debugbar::error($ex);
         }       
-        //Debugbar::alert($errors);
-
-
-        
 
         $articles = Article::get();
-       
-        //return redirect('articles/index')
-        //            ->with('success', 'Article Created');
+
         return view('articles/import' , compact('user', 'articles', 'title', 'errors'));
     }
 
@@ -110,15 +96,6 @@ trait AdminArticles {
     public function postCreate(ArticleCreateFormRequest $request)
     {
         Debugbar::info($request->input());
-
-       
-        //year
-        //volume
-        //issue
-        //page_range_min
-        //page_range_max
-        //design
-        //summary
         
         try{
             DB::beginTransaction();
@@ -168,14 +145,7 @@ trait AdminArticles {
      */
     public function postEdit($id, ArticleCreateFormRequest $request)
     {
-        
-       
-        //year
-        //volume
-        //issue
-        //page_range_min
-        //page_range_max
-        //Debugbar::info($request->input());
+
         Debugbar::info($request->input());
         
         $article=Article::findOrFail($id);
@@ -223,8 +193,6 @@ trait AdminArticles {
             UserStatistics::usupdate(Auth::user(), $article->id, 'article', 'postAddCoauthor');
             
         }catch(\Exception $ex){
-            // Show the page
-             //Debugbar::info('saliendooo');
 
             return redirect('articles/'.$id.'/author')->with('error', 'Coauthor already added');
         }
@@ -259,30 +227,23 @@ trait AdminArticles {
      * @return Response
      */
     public function postAddImplication($id, Request $request)
-    {
-        
+    {      
         Debugbar::info(($request->input('implications')));
-        //Debugbar::info(\Helper::prepareImplicationsForSave($request->input('implications')));
 
         try{
             // Title
             $title = 'Implications of Study';
 
             $article=Article::findOrFail($id);
-            //$implication = ImplicationStudyList::find($request->input('implication'));
 
-            //$article->implication->implications()->attach($implication);
             $article->implications()->sync($request->input('implications'));
             UserStatistics::usupdate(Auth::user(), $article->id, 'article', 'postAddImplications');
             
         }catch(\Exception $ex){
-            // Show the page
-             //Debugbar::info('saliendooo');
 
             return redirect('articles/'.$id.'/implications')
                         ->with('error', 'Implication already added');
         }
-        
         // Show the page
         return redirect('articles/'.$id.'/implications')
                 ->with('success', 'Implication added!');       
@@ -359,7 +320,106 @@ trait AdminArticles {
             ->with('success', 'Outcome Measure deleted!');
     }
 
-
+    /**
+     * Store a newly created sequence in storage.
+     *
+     * @return Response
+     */
+    public function postAddAgeRange($id, Request $request)
+    {
+    	try{
+    		// Title
+    		$title = 'Age Range';
+    
+    		$article=Article::findOrFail($id);
+    		//$conclusion = Conclusion::find($request->input('conclusion'));
+    
+    		Debugbar::info($request->all());
+    		$ageRange = new AgeRange();
+    		$ageRange->medium = $request->input('medium');
+    		$ageRange->minimum = $request->input('minimum');
+    		$ageRange->maximum = $request->input('maximum');
+    		$ageRange->name = $request->input('name');
+    		
+    		$article->population->ageRange()->save($ageRange);
+    
+    
+    	}catch(\Exception $ex){
+    
+    		return redirect('articles/'.$id.'/population')->with('error', 'Age Range already added'. $ex);
+    	}
+    
+    	// Show the page
+    	return redirect('articles/'.$id.'/population')
+    	->with('success', 'Age Range added!');
+    }
+    /**
+     * Delete a list
+     * @param  integer $id The list ID
+     * @return Response
+     */
+    public function destroyAgeRange($article_id, $age_id)
+    {
+    	$user = \Auth::user();
+    
+    	//$article=Article::findOrFail($article_id);
+    	$ageRange = AgeRange::findOrFail($age_id);
+    
+    	$ageRange->delete();
+    
+    	return redirect('articles/'.$article_id.'/population')
+    	->with('success', 'Age Range deleted!');
+    }
+    
+    /**
+     * Store a newly created sequence in storage.
+     *
+     * @return Response
+     */
+    public function postAddSampleSize($id, Request $request)
+    {
+    	try{
+    		// Title
+    		$title = 'sample size';
+    
+    		$article=Article::findOrFail($id);
+    		//$conclusion = Conclusion::find($request->input('conclusion'));
+    
+    		Debugbar::info($request->all());
+    		$samplSize = new SampleSize();
+    		$samplSize->size = $request->input('size');
+    		$samplSize->option = $request->input('option');
+    
+    		$article->population->sampleSize()->save($samplSize);
+    
+    
+    	}catch(\Exception $ex){
+    
+    		return redirect('articles/'.$id.'/population')->with('error', 'Sample Size already added'. $ex);
+    	}
+    
+    	// Show the page
+    	return redirect('articles/'.$id.'/population')
+    	->with('success', 'Sample Size added!');
+    }
+    /**
+     * Delete a list
+     * @param  integer $id The list ID
+     * @return Response
+     */
+    public function destroySampleSize($article_id, $sample_id)
+    {
+    	$user = \Auth::user();
+    
+    	//$article=Article::findOrFail($article_id);
+    	$sampleSize = SampleSize::findOrFail($sample_id);
+    
+    	$sampleSize->delete();
+    
+    	return redirect('articles/'.$article_id.'/population')
+    	->with('success', 'Sample size deleted!');
+    }
+    
     /**
      * Store a newly created sequence in storage.
      *

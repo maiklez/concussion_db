@@ -109,7 +109,33 @@ Route::group(['prefix' => 'articles', 'namespace' => 'Articles', 'middleware' =>
 		'permission' => 'can_articles'	
 	]);
 
-
+	//------------------------------
+	
+//POPULATION
+	Route::get('/{id}/population', [
+			'uses' => 'ArticlesController@getPopulationArticle',
+			'permission' => 'can_articles'
+	]);
+	
+	Route::post('/{id}/add_age_range', [
+			'uses' => 'ArticlesController@postAddAgeRange',
+			'permission' => 'can_articles'
+	]);
+	Route::get('/{article_id}/{age_id}/destroy_age_range', [
+			'uses' => 'ArticlesController@destroyAgeRange',
+			'permission' => 'can_articles'
+	]);
+	
+	Route::post('/{id}/add_sample_size', [
+			'uses' => 'ArticlesController@postAddSampleSize',
+			'permission' => 'can_articles'
+	]);
+	Route::get('/{article_id}/{sample_id}/destroy_sample_size', [
+			'uses' => 'ArticlesController@destroySampleSize',
+			'permission' => 'can_articles'
+	]);
+//------------------------------
+	
 //------------------------------
 
 	//OBJECTIVES

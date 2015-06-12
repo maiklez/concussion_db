@@ -22,8 +22,95 @@ class FormCreator
 	public function sayHello(){
 		return "Hello World";
 	}
-
-
+	
+	public function sampleSizeForm($article, $errors){
+		$salida = '';
+	
+		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/add_sample_size','class'=>'ajax form-horizontal', 'method'=> 'POST'));
+		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
+	
+		$error = '';
+		if($errors->has('size')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+	
+		$salida = $salida . Form::label('Sample Size');
+		$salida = $salida . Form::text('size');
+		$salida = $salida . $errors->first('size', '<span class="help-block">:message</span>');
+	
+		$salida = $salida . '</div>';
+		
+		$error = '';
+		if($errors->has('option')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+		
+		$salida = $salida . Form::label('Sample Size Text');
+		$salida = $salida . Form::text('option');
+		$salida = $salida . $errors->first('option', '<span class="help-block">:message</span>');
+		
+		$salida = $salida . '</div>';
+	
+		$salida = $salida . Form::submit('Add Sample Size', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
+		$salida = $salida . Form::close();
+	
+		return $salida;
+	}
+	
+	public function ageRangeForm($article, $errors){
+		$salida = '';
+	
+		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/add_age_range','class'=>'ajax form-horizontal', 'method'=> 'POST'));
+		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
+	
+		$error = '';
+		if($errors->has('medium')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';	
+		$salida = $salida . Form::label('Medium');
+		$salida = $salida . Form::text('medium');
+		$salida = $salida . $errors->first('medium', '<span class="help-block">:message</span>');	
+		$salida = $salida . '</div>';
+		
+		$error = '';
+		if($errors->has('minimum')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+		$salida = $salida . Form::label('Minimum');
+		$salida = $salida . Form::text('minimun');
+		$salida = $salida . $errors->first('minimum', '<span class="help-block">:message</span>');
+		$salida = $salida . '</div>';
+		
+		$error = '';
+		if($errors->has('maximum')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+		$salida = $salida . Form::label('Maximum');
+		$salida = $salida . Form::text('maximum');
+		$salida = $salida . $errors->first('maximum', '<span class="help-block">:message</span>');
+		$salida = $salida . '</div>';
+		
+		$error = '';
+		if($errors->has('name')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+		$salida = $salida . Form::label('Age Range Text');
+		$salida = $salida . Form::text('name');
+		$salida = $salida . $errors->first('name', '<span class="help-block">:message</span>');
+		$salida = $salida . '</div>';
+	
+		$salida = $salida . Form::submit('Add Age Range', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
+		$salida = $salida . Form::close();
+	
+		return $salida;
+	}
+	
 	public function objectivesForm($article, $errors){
 		$salida = '';
 
@@ -44,60 +131,6 @@ class FormCreator
 
 		$salida = $salida . Form::submit('Add Objective', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
 		$salida = $salida . Form::close();
-
-
-
-		return $salida;
-	}
-
-	public function recomendationsForm($article, $errors){
-		$salida = '';
-
-		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/addrecomendation','class'=>'ajax form-horizontal', 'method'=> 'POST'));
-		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
-
-		$error = '';
-		if($errors->has('recomendation')){
-			$error = 'error';
-		}
-		$salida = $salida . '<div class="form-group '.$error . '">';
-
-		$salida = $salida . Form::label('Recomendation');
-		$salida = $salida . Form::textArea('recomendation');
-		$salida = $salida . $errors->first('recomendation', '<span class="help-block">:message</span>');
-
-		$salida = $salida . '</div>';
-
-		$salida = $salida . Form::submit('Add Recomendation', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
-		$salida = $salida . Form::close();
-
-
-
-		return $salida;
-	}
-
-	public function commentsForm($article, $errors){
-		$salida = '';
-
-		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/addcomments','class'=>'ajax form-horizontal', 'method'=> 'POST'));
-		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
-
-		$error = '';
-		if($errors->has('comment')){
-			$error = 'error';
-		}
-		$salida = $salida . '<div class="form-group '.$error . '">';
-
-		$salida = $salida . Form::label('Comment');
-		$salida = $salida . Form::textArea('comment');
-		$salida = $salida . $errors->first('comment', '<span class="help-block">:message</span>');
-
-		$salida = $salida . '</div>';
-
-		$salida = $salida . Form::submit('Add Comment', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
-		$salida = $salida . Form::close();
-
-
 
 		return $salida;
 	}
@@ -124,38 +157,6 @@ class FormCreator
 		$salida = $salida . Form::close();
 
 
-
-		return $salida;
-	}
-
-	public function resultsForm($article, $errors){
-		$salida = '';
-
-		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/addresult','class'=>'ajax form-horizontal', 'method'=> 'POST'));
-		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
-
-		$error = '';
-		if($errors->has('result')){
-			$error = 'error';
-		}
-		$salida = $salida . '<div class="form-group '.$error . '">';
-		$salida = $salida . Form::label('Result');
-		$salida = $salida . Form::textArea('result');
-		$salida = $salida . $errors->first('result', '<span class="help-block">:message</span>');
-		$salida = $salida . '</div>';
-
-		$error = '';
-		if($errors->has('link')){
-			$error = 'error';
-		}
-		$salida = $salida . '<div class="form-group '.$error . '">';
-		$salida = $salida . Form::label('Image Link');
-		$salida = $salida . Form::text('link');
-		$salida = $salida . $errors->first('link', '<span class="help-block">:message</span>');
-		$salida = $salida . '</div>';
-
-		$salida = $salida . Form::submit('Add Result', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
-		$salida = $salida . Form::close();
 
 		return $salida;
 	}
@@ -569,5 +570,91 @@ class FormCreator
 
 		return $salida;
 	}
+	
+	//unused
+	public function recomendationsForm($article, $errors){
+		$salida = '';
+	
+		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/addrecomendation','class'=>'ajax form-horizontal', 'method'=> 'POST'));
+		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
+	
+		$error = '';
+		if($errors->has('recomendation')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+	
+		$salida = $salida . Form::label('Recomendation');
+		$salida = $salida . Form::textArea('recomendation');
+		$salida = $salida . $errors->first('recomendation', '<span class="help-block">:message</span>');
+	
+		$salida = $salida . '</div>';
+	
+		$salida = $salida . Form::submit('Add Recomendation', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
+		$salida = $salida . Form::close();
+	
+	
+	
+		return $salida;
+	}
+	
+	//unused
+	public function commentsForm($article, $errors){
+		$salida = '';
+	
+		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/addcomments','class'=>'ajax form-horizontal', 'method'=> 'POST'));
+		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
+	
+		$error = '';
+		if($errors->has('comment')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+	
+		$salida = $salida . Form::label('Comment');
+		$salida = $salida . Form::textArea('comment');
+		$salida = $salida . $errors->first('comment', '<span class="help-block">:message</span>');
+	
+		$salida = $salida . '</div>';
+	
+		$salida = $salida . Form::submit('Add Comment', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
+		$salida = $salida . Form::close();
+	
+	
+	
+		return $salida;
+	}
 
+	//unused
+	public function resultsForm($article, $errors){
+		$salida = '';
+	
+		$salida = $salida . Form::open(array('url'=>'articles/'.$article->id.'/addresult','class'=>'ajax form-horizontal', 'method'=> 'POST'));
+		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
+	
+		$error = '';
+		if($errors->has('result')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+		$salida = $salida . Form::label('Result');
+		$salida = $salida . Form::textArea('result');
+		$salida = $salida . $errors->first('result', '<span class="help-block">:message</span>');
+		$salida = $salida . '</div>';
+	
+		$error = '';
+		if($errors->has('link')){
+			$error = 'error';
+		}
+		$salida = $salida . '<div class="form-group '.$error . '">';
+		$salida = $salida . Form::label('Image Link');
+		$salida = $salida . Form::text('link');
+		$salida = $salida . $errors->first('link', '<span class="help-block">:message</span>');
+		$salida = $salida . '</div>';
+	
+		$salida = $salida . Form::submit('Add Result', array('class'=>'btn btn-success','id'=>'mdl_save_change'));
+		$salida = $salida . Form::close();
+	
+		return $salida;
+	}
 }
