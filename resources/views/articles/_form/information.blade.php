@@ -167,16 +167,6 @@
 <!-- Design -->
 		<div class="form-group  {{{ $errors->has('design')||$errors->has('summary') ? 'error' : '' }}}">
 		
-		    <div class="col-md-5">
-
-		    {!! Form::label('Design') !!}
-		    {!! Form::textarea('design', Input::old('design', isset($article) ? $article->design : null), 
-		    													array('class'=>'form-control', 'placeholder'=>'Design')) !!}
-		    {!! $errors->first('design', '<span class="help-block">:message</span>') !!}
-
-		   	</div>
-
-
 			<div class="col-md-5">
 		<!-- DF Summary -->
 		    {!! Form::label('DF Summary') !!}

@@ -99,4 +99,23 @@ class UserStatistics extends Model  {
 		
 		$user->statistics()->save($stat);
 	}
+	
+	public static function ussave(User $user, $id, $data_type, $query=null){
+		$stat = new UserStatistics(['activity' => 'save', 'data_type'=> $data_type,'query'=> $query ]);
+	
+		if($data_type=='article') $stat->article = $id;
+		elseif($data_type=='author') $stat->author = $id;
+		elseif($data_type=='user') $stat->user = $id;
+	
+		$user->statistics()->save($stat);
+	}
+	public static function usupdate(User $user, $id, $data_type, $query=null){
+		$stat = new UserStatistics(['activity' => 'update', 'data_type'=> $data_type,'query'=> $query ]);
+	
+		if($data_type=='article') $stat->article = $id;
+		elseif($data_type=='author') $stat->author = $id;
+		elseif($data_type=='user') $stat->user = $id;
+	
+		$user->statistics()->save($stat);
+	}
 }

@@ -88,22 +88,6 @@
                 
                 <p>{{ Helper::getPathList( $measure)}}</p>
             @endforeach
-    		           
-
-           
-            <h4>Results</h4>
-    		@foreach ($article->results as $result)    			
-    			<p>{{ $result->result}}</p>
-    			
-    		@endforeach
-
-
-	       <h4>Conclussions</h4>
-            @foreach ($article->conclusion as $conclussion)             
-                <p>{{ $conclussion->conclussion}}</p>
-                
-            @endforeach
-
 
             <div class="actions">
                     <a href="#addcoauthor" class="btn btn-success iframe">Add Coauthor</a>

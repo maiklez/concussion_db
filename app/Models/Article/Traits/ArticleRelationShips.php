@@ -44,26 +44,6 @@ trait ArticleRelationShips {
     }
 
     /**
-     * recomendations() one-to-many relationship method
-     * 
-     * @return QueryBuilder
-     */
-    public function recomendations()
-    {
-        return $this->hasMany('App\Models\Article\StudyRecomendations');
-    }
-
-    /**
-     * comments() one-to-many relationship method
-     * 
-     * @return QueryBuilder
-     */
-    public function comments()
-    {
-        return $this->hasMany('App\Models\Article\Comments');
-    }
-
-    /**
 	 * population() one-to-one relationship method
 	 * 
 	 * @return QueryBuilder
@@ -71,16 +51,6 @@ trait ArticleRelationShips {
     public function population()
     {
         return $this->hasOne('App\Models\Article\StudyPopulation');
-    }
-
-     /**
-	 * results() one-to-one relationship method
-	 * 
-	 * @return QueryBuilder
-	 */
-    public function results()
-    {
-        return $this->hasMany('App\Models\Article\StudyResult');
     }
 
      /**
@@ -101,16 +71,6 @@ trait ArticleRelationShips {
     public function outcome_measures()
     {
         return $this->belongsToMany('App\Models\Lists\OutcomeMeasureList', 'outcome_list_pivot', 'article_id', 'list_id');
-    }
-
-     /**
-	 * conclusion() one-to-many relationship method
-	 * 
-	 * @return QueryBuilder
-	 */
-    public function conclusion()
-    {
-        return $this->hasMany('App\Models\Article\Conclusion');
     }
 
 	/**

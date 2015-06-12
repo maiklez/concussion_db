@@ -118,28 +118,6 @@ class ArticlesController extends Controller {
      *
      * @return Response
      */
-    public function getConclusionsArticle($article_id)
-    {
-         // Title
-        $title = 'Show Article';
-
-        // Grab all the users
-        $user = $this->user;
-
-        $article = Article::find($article_id);
-
-        // Title
-        $title = $article->article_title;
-
-
-        return view('articles/conclusions' , compact('user',  'article',  'title'));
-    }
-
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
     public function getObjectivesArticle($article_id)
     {
          // Title
@@ -154,48 +132,6 @@ class ArticlesController extends Controller {
 
 
         return view('articles/objectives' , compact('user',  'article',  'title'));
-    }
-
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function getCommentsArticle($article_id)
-    {
-         // Title
-        $title = 'Show Article';
-
-        // Grab all the users
-        $user = $this->user;
-
-        $article = Article::find($article_id);
-        // Title
-        $title = $article->article_title;
-
-
-        return view('articles/comments' , compact('user',  'article',  'title'));
-    }
-
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function getRecomendationsArticle($article_id)
-    {
-         // Title
-        $title = 'Show Article';
-
-        // Grab all the users
-        $user = $this->user;
-
-        $article = Article::find($article_id);
-        // Title
-        $title = $article->article_title;
-
-
-        return view('articles/recomendations' , compact('user',  'article',  'title'));
     }
 
     /**
@@ -249,31 +185,7 @@ class ArticlesController extends Controller {
         return view('articles/implications' , compact('user',  'article', 'implications','title'));
     }
 
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function getResultsArticle($article_id)
-    {
-         // Title
-        $title = 'Show Article';
-
-        // Grab all the users
-        $user = $this->user;
-
-        $article = Article::find($article_id);
-
-        // Title
-        $title = $article->article_title;
-
-        //foreach ($article->results->testResult as $results) {            
-        //    \Debugbar::info($results->resultEvent->name);
-        //}
-
-        return view('articles/results' , compact('user',  'article',  'title'));
-    }
-
+    
     /**
      * Show the application dashboard to the user.
      *

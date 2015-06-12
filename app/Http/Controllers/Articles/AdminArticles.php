@@ -1,12 +1,11 @@
 <?php namespace App\Http\Controllers\Articles;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
 use App\Models\User\User;
 use Debugbar;
 use DB;
 use Excel;
+use Auth;
 
 use ArticleService;
 
@@ -38,6 +37,7 @@ use App\Models\Lists\OutcomeMeasureList;
 use App\Models\Lists\PopulationType;
 use App\Models\Lists\PopulationClass;
 use App\Models\Lists\Gender;
+use App\Models\User\UserStatistics;
 
 trait AdminArticles {
 
@@ -126,7 +126,9 @@ trait AdminArticles {
             $article = Article::createArticle($request);           
 
             $article->updatePopulation($request);           
-           
+            
+            UserStatistics::ussave(Auth::user(), $article->id, 'article');
+            
         }catch(Exception $ex){
             DB::rollback();
             return redirect('articles/'.$article->id.'/edit')
@@ -183,7 +185,7 @@ trait AdminArticles {
             $article->updateArticle($request);
 
             $article->updatePopulation($request); 
-
+            UserStatistics::usupdate(Auth::user(), $article->id, 'article', 'postEdit Article');
         }catch(Exception $ex){
             DB::rollback();
             return redirect('articles/'.$article->id.'/edit')
@@ -218,6 +220,7 @@ trait AdminArticles {
 
             $article->coauthors()->attach($coauthor);
             
+            UserStatistics::usupdate(Auth::user(), $article->id, 'article', 'postAddCoauthor');
             
         }catch(\Exception $ex){
             // Show the page
@@ -255,55 +258,6 @@ trait AdminArticles {
      *
      * @return Response
      */
-    public function postAddConclusion($id, Request $request)
-    {
-       try{
-            // Title
-            $title = 'Conclusion';
-
-            $article=Article::findOrFail($id);
-            //$conclusion = Conclusion::find($request->input('conclusion'));
-
-            Debugbar::info($request->all());
-            $conclusion = new Conclusion();
-            $conclusion->conclussion = $request->input('conclusion');
-
-            $article->conclusion()->save($conclusion);
-            
-            
-        }catch(\Exception $ex){
-
-            return redirect('articles/'.$id.'/conclusions')->with('error', 'Conclusion already added'. $ex);
-        }
-        
-        // Show the page
-        return redirect('articles/'.$id.'/conclusions')
-                    ->with('success', 'Conclusion added!');
-    }
-
-    /**
-     * Delete a list
-     * @param  integer $id The list ID
-     * @return Response
-     */
-    public function destroyConclusion($article_id, $conclusion_id)
-    {
-        $user = \Auth::user();
-        
-        //$article=Article::findOrFail($article_id);
-        $conclusion = Conclusion::findOrFail($conclusion_id);
-
-        $conclusion->delete();
-
-        return redirect('articles/'.$article_id.'/conclusions')
-            ->with('success', 'Conclusion deleted!');
-    }
-
-    /**
-     * Store a newly created sequence in storage.
-     *
-     * @return Response
-     */
     public function postAddImplication($id, Request $request)
     {
         
@@ -319,7 +273,7 @@ trait AdminArticles {
 
             //$article->implication->implications()->attach($implication);
             $article->implications()->sync($request->input('implications'));
-
+            UserStatistics::usupdate(Auth::user(), $article->id, 'article', 'postAddImplications');
             
         }catch(\Exception $ex){
             // Show the page
@@ -371,7 +325,7 @@ trait AdminArticles {
             $article=Article::findOrFail($id);
 
             $article->outcome_measures()->sync($request->input('measures'));
-
+            UserStatistics::usupdate(Auth::user(), $article->id, 'article', 'postAddOutcomeMeasures');
             
         }catch(\Exception $ex){
             // Show the page
@@ -453,158 +407,6 @@ trait AdminArticles {
 
         return redirect('articles/'.$article_id.'/objectives')
             ->with('success', 'Study Objective deleted!');
-    }
-
-
-    /**
-     * Store a newly created sequence in storage.
-     *
-     * @return Response
-     */
-    public function postAddComment($id, Request $request)
-    {
-       try{
-            // Title
-            $title = 'Authors Comments';
-
-            $article=Article::findOrFail($id);
-            //$conclusion = Conclusion::find($request->input('conclusion'));
-
-            Debugbar::info($request->all());
-            $comment = new Comments();
-            $comment->comments = $request->input('comments');
-
-            $article->comments()->save($comment);
-            
-            
-        }catch(\Exception $ex){
-
-            return redirect('articles/'.$id.'/comments')->with('error', 'Comment already added'. $ex);
-        }
-        
-        // Show the page
-        return redirect('articles/'.$id.'/comments')
-                    ->with('success', 'Comment added!');
-    }
-
-    /**
-     * Delete a list
-     * @param  integer $id The list ID
-     * @return Response
-     */
-    public function destroyComment($article_id, $id)
-    {
-        $user = \Auth::user();
-        
-        //$article=Article::findOrFail($article_id);
-        $comment = Comments::findOrFail($id);
-
-        $comment->delete();
-
-        return redirect('articles/'.$article_id.'/comments')
-            ->with('success', 'Comment deleted!');
-    }
-
-    /**
-     * Store a newly created sequence in storage.
-     *
-     * @return Response
-     */
-    public function postAddRecomendation($id, Request $request)
-    {
-       try{
-            // Title
-            $title = 'Recomendations';
-
-            $article=Article::findOrFail($id);
-            //$conclusion = Conclusion::find($request->input('conclusion'));
-
-            Debugbar::info($request->all());
-            $recomendation = new StudyRecomendations();
-            $recomendation->recomendations = $request->input('recomendations');
-
-            $article->recomendations()->save($recomendation);
-            
-            
-        }catch(\Exception $ex){
-
-            return redirect('articles/'.$id.'/recomendations')->with('error', 'recomendation already added'. $ex);
-        }
-        
-        // Show the page
-        return redirect('articles/'.$id.'/recomendations')
-                    ->with('success', 'recomendation added!');
-    }
-
-    /**
-     * Delete a list
-     * @param  integer $id The list ID
-     * @return Response
-     */
-    public function destroyRecomendation($article_id, $id)
-    {
-        $user = \Auth::user();
-        
-        //$article=Article::findOrFail($article_id);
-        $comment = StudyRecomendations::findOrFail($id);
-
-        $comment->delete();
-
-        return redirect('articles/'.$article_id.'/recomendations')
-            ->with('success', 'recomendations deleted!');
-    }
-
-
-
-    /**
-     * Store a newly created sequence in storage.
-     *
-     * @return Response
-     */
-    public function postAddResult($id, Request $request)
-    {
-        
-        Debugbar::info($request->all());
-
-        try{
-            
-            $article=Article::findOrFail($id);
-            $testResult = new StudyResult();
-
-            $testResult->result = $request->input('result');
-            $testResult->image_link = $request->input('link');
-
-            $article->results()->save($testResult);
-            
-            
-        }catch(\Exception $ex){
-            // Show the page
-             Debugbar::info($ex);
-            return redirect('articles/'.$id.'/results')
-                        ->with('error', ''.$ex);
-        }
-        
-        // Show the page
-        return redirect('articles/'.$id.'/results')
-                ->with('success', 'Study Result added!');       
-    }
-
-    /**
-     * Delete a list
-     * @param  integer $id The list ID
-     * @return Response
-     */
-    public function destroyResult($article_id, $result_id)
-    {
-        $user = \Auth::user();
-        
-        $article=Article::findOrFail($article_id);
-        $tresult = StudyResult::findOrFail($result_id);
-
-        $tresult->delete();
-
-        return redirect('articles/'.$article_id.'/results')
-            ->with('success', 'Test Result deleted!');
     }
 
     /**

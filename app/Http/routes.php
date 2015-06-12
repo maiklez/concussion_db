@@ -108,40 +108,8 @@ Route::group(['prefix' => 'articles', 'namespace' => 'Articles', 'middleware' =>
 		'uses' => 'ArticlesController@destroyMeasure',
 		'permission' => 'can_articles'	
 	]);
-//------------------------------
 
 
-	//RESULTS
-	Route::get('/{id}/results', [
-		'uses' => 'ArticlesController@getResultsArticle',
-		'permission' => 'can_articles'	
-	]);	
-
-	Route::post('/{id}/addresult', [
-		'uses' => 'ArticlesController@postAddResult',
-		'permission' => 'can_articles'	
-	]);
-	Route::get('/{article_id}/{result_id}/destroyresult', [
-		'uses' => 'ArticlesController@destroyResult',
-		'permission' => 'can_articles'	
-	]);
-
-//------------------------------
-
-	//CONCLUSIONS
-	Route::get('/{id}/conclusions', [
-		'uses' => 'ArticlesController@getConclusionsArticle',
-		'permission' => 'can_articles'	
-	]);
-
-	Route::post('/{id}/addconclusion', [
-		'uses' => 'ArticlesController@postAddConclusion',
-		'permission' => 'can_articles'	
-	]);
-	Route::get('/{article_id}/{conclusion_id}/destroyconclusion', [
-		'uses' => 'ArticlesController@destroyConclusion',
-		'permission' => 'can_articles'	
-	]);
 //------------------------------
 
 	//OBJECTIVES
@@ -156,38 +124,6 @@ Route::group(['prefix' => 'articles', 'namespace' => 'Articles', 'middleware' =>
 	]);
 	Route::get('/{article_id}/{objective_id}/destroyobjective', [
 		'uses' => 'ArticlesController@destroyObjective',
-		'permission' => 'can_articles'	
-	]);
-//------------------------------
-
-	//RECOMENDATIONS
-	Route::get('/{id}/recomendations', [
-		'uses' => 'ArticlesController@getRecomendationsArticle',
-		'permission' => 'can_articles'	
-	]);
-
-	Route::post('/{id}/addrecomendations', [
-		'uses' => 'ArticlesController@postAddRecomendations',
-		'permission' => 'can_articles'	
-	]);
-	Route::get('/{article_id}/{id}/destroyrecomendation', [
-		'uses' => 'ArticlesController@destroyRecomendation',
-		'permission' => 'can_articles'	
-	]);
-//------------------------------
-
-	//authors COMMENTS
-	Route::get('/{id}/comments', [
-		'uses' => 'ArticlesController@getCommentsArticle',
-		'permission' => 'can_articles'	
-	]);
-
-	Route::post('/{id}/addcomment', [
-		'uses' => 'ArticlesController@postAddComment',
-		'permission' => 'can_articles'	
-	]);
-	Route::get('/{article_id}/{id}/destroycomment', [
-		'uses' => 'ArticlesController@destroyComment',
 		'permission' => 'can_articles'	
 	]);
 //------------------------------
@@ -288,7 +224,12 @@ Route::group(['prefix' => 'authors', 'namespace' => 'Articles', 'middleware' => 
 		'uses' => 'AuthorsController@postEdit',
 		'permission' => 'can_articles'	
 	]);
-
+	
+	Route::post('/{id}/addaffiliation', [
+			'uses' => 'AuthorsController@postAddAffiliations',
+			'permission' => 'can_articles'
+	]);
+	
 	Route::get('/{id}/destroy', [
 		'as' => 'authors.destroy',
 		'uses' => 'AuthorsController@destroy',

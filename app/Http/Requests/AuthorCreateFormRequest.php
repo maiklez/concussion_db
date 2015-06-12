@@ -12,8 +12,8 @@ class AuthorCreateFormRequest extends Request {
 	public function rules()
 	{
         return [
-          'name' => 'required',
-          'affiliations' => 'required'
+          'name' => 'required'          
+          //,'affiliations' => 'required'
         ];
 	}
 

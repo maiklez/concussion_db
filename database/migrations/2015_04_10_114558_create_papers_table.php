@@ -21,6 +21,9 @@ class CreatePapersTable extends Migration {
 
 			$table->integer('parent_id')->unsigned()->nullable();
 			$table->foreign('parent_id')->references('id')->on('articles');
+			
+			$table->integer('user_id')->unsigned()->nullable();
+			$table->foreign('user_id')->references('id')->on('users');
 
 			$table->string('article_title');
 			$table->string('journal_title');
@@ -41,7 +44,6 @@ class CreatePapersTable extends Migration {
 
 			$table->text('key_finding')->nullable();
 
-			$table->text('design')->nullable();
 			$table->text('summary')->nullable();
 
 			$table->timestamps();
@@ -68,30 +70,6 @@ class CreatePapersTable extends Migration {
 			$table->unique(array('article_id','list_id'));
 		});
 
-		Schema::create('conclussions', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('article_id')->unsigned();
-			$table->foreign('article_id')->references('id')->on('articles');
-			$table->text('conclussion');
-
-			$table->timestamps();
-		});
-
-		Schema::create('study_results', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('article_id')->unsigned();
-			$table->foreign('article_id')->references('id')->on('articles');
-
-			$table->text('result');
-			$table->string('image_link')->nullable();
-
-			$table->timestamps();
-		});
-		
-		
-
 		Schema::create('study_objectives', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -99,18 +77,6 @@ class CreatePapersTable extends Migration {
 			$table->foreign('article_id')->references('id')->on('articles');
 
 			$table->text('objective');
-
-
-			$table->timestamps();
-		});
-
-		Schema::create('study_recomendations', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('article_id')->unsigned();
-			$table->foreign('article_id')->references('id')->on('articles');
-
-			$table->text('recomendations');
 
 
 			$table->timestamps();
@@ -241,15 +207,6 @@ class CreatePapersTable extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('authors_comments', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('article_id')->unsigned();
-			$table->foreign('article_id')->references('id')->on('articles');
-			$table->text('comments');
-
-			$table->timestamps();
-		});
 		
 	}
 
@@ -261,8 +218,6 @@ class CreatePapersTable extends Migration {
 	public function down()
 	{
 		
-		Schema::drop('authors_comments');
-
 		Schema::drop('in_reply_comments');
 		Schema::drop('in_reply_class_pivot');
 		Schema::drop('in_reply_authors_pivot');
@@ -273,12 +228,9 @@ class CreatePapersTable extends Migration {
 		Schema::drop('sample_sizes');
 		Schema::drop('age_ranges');
 		Schema::drop('study_population');
-		Schema::drop('study_recomendations');
 
 		Schema::drop('study_objectives');
 		
-		Schema::drop('study_results');
-		Schema::drop('conclussions');
 		Schema::drop('article_class_pivot');
 		Schema::drop('article_type_pivot');	
 

@@ -2,7 +2,9 @@
 
 use App\Models\User\User;
 use App\Models\Author\Author;
+use App\Models\Author\Affiliation;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\AuthorCreateFormRequest;
 use App\Models\User\UserStatistics;
 
@@ -34,10 +36,12 @@ trait AdminAuthors {
     {
         $author = new Author();
         $author->name = $request->get('name');
-        $author->affiliations = $request->get('affiliations');
-       
+        $author->email = $request->get('email');
+        
         $author->save();
-
+		
+        UserStatistics::ussave(Auth::user(), $author->id, 'author');
+        
         return redirect('authors/'.$author->id.'/edit')->with('success', 'Your author has been created!');
     }
 
@@ -53,7 +57,7 @@ trait AdminAuthors {
         UserStatistics::uslist(Auth::user(), $author->id, 'author');
         
         // Title
-        $title = 'New Author';
+        $title = 'Edit Author';
 
         // Show the page
         return view('authors/create_edit', compact('author', 'title'));
@@ -69,14 +73,33 @@ trait AdminAuthors {
         $author=Author::findOrFail($id);
 
         $author->name = $request->get('name');
-        $author->affiliations = $request->get('affiliations');
-
+        $author->email = $request->get('email');
+        
         $author->save();
-
-        return redirect('authors/'.$author->id.'/edit')->with('success', 'Your author has been updated!');
-
-        //return \Redirect::to('authors/'.$author->id.'/edit', 
-        //    array($list->id))->with('message', 'Your author has been updated!');
+		
+        UserStatistics::usupdate(Auth::user(), $author->id, 'author');
+        
+        return redirect('authors/'.$author->id.'/edit')->with('success', 'The author has been updated!');
+    }
+    
+    /**
+     * Store a newly created sequence in storage.
+     * @param  integer $id The list ID
+     * @return Response
+     */
+    public function postAddAffiliations($id, Request $request)
+    {
+    	$author=Author::findOrFail($id);
+    	
+    	$affiliation = new Affiliation();
+    	$affiliation->affiliation = $request->get('affiliation');
+    	$affiliation->affiliation_population = $request->get('population');
+    	$affiliation->affiliation_country = $request->get('country');
+    	
+    	$author->affiliations()->save($affiliation);
+    	UserStatistics::usupdate(Auth::user(), $author->id, 'author', 'postAddAffiliations');
+    	
+    	return redirect('authors/'.$author->id.'/edit')->with('success', 'Affiliation has been added!');
     }
 
 

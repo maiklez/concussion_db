@@ -34,9 +34,6 @@
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
 
-<h2>Create an Author</h2>
-
-
 
 <div class="form-group {{{ $errors->has('name') ? 'error' : '' }}}">
     {!! Form::label('Author Name') !!}
@@ -44,6 +41,19 @@
     													array('class'=>'form-control', 'placeholder'=>'Name')) !!}
     {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
 </div>
+
+<div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
+    {!! Form::label('Author email') !!}
+    {!! Form::text('email', Input::old('email', isset($author) ? $author->email : null), 
+    													array('class'=>'form-control', 'placeholder'=>'E-Mail')) !!}
+    {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+</div>
+
+<div class="form-group">
+    {!! Form::submit('Update Author', ['class'=>'btn primary']) !!}
+</div>
+
+</form>
 
 @if(isset($author))
 <div class="form-group {{{ $errors->has('affiliations') ? 'error' : '' }}}">
@@ -54,24 +64,18 @@
     
     {!! Form::label('Author Affiliations') !!}
     @foreach ($author->affiliations as $affiliation)
-        <div>    
-            <a href="{{ URL::to('articles/'.$author->id.'/'.$affiliation->id.'/destroyaffiliation') }}" alt="destroy" class="">
-            <i class="glyphicon glyphicon-remove-circle" alt="destroy" ></i></a>
-        </div>           
-        <p>{{ $affiliation->affiliation}}</p>
-        <p>{{ $affiliation->affiliation_population}}</p>
-        <p>{{ $affiliation->affiliation_country}}</p>
-
+        <div class="panel panel-default" style="width: 560px;">    
+            <a  href="{{ URL::to('articles/'.$author->id.'/'.$affiliation->id.'/destroyaffiliation') }}" alt="destroy" class="">
+            <i style="margin-left: 10px; margin-top: 10px;" class="glyphicon glyphicon-remove-circle" alt="destroy" ></i></a>
+                   
+        	<p style="margin-left: 10px;"> {{ $affiliation->affiliation}}, {{ $affiliation->affiliation_population}}, {{ $affiliation->affiliation_country}}</p>
+		</div>
     @endforeach
 
 </div>
 @endif
 
-<div class="form-group">
-    {!! Form::submit('Submit', ['class'=>'btn primary']) !!}
-</div>
 
-</form>
 </div>
 
 @stop

@@ -14,6 +14,7 @@ use App\Models\Lists\Gender;
 use App\Models\Author\Author;
 
 use DateTime;
+use Auth;
 
 class Article extends Model {
 
@@ -64,9 +65,9 @@ class Article extends Model {
         $article->doi_number_number = '367';
         $article->crossref_link = $request->input('ref_link');
         
-        $article->design = $request->input('design');
         $article->summary = $request->input('summary');
-
+		
+        $article->user_id = Auth::id();
         $author = Author::find($request->input('author'));
         $article = $author->articleAuthor()->save($article);
 
@@ -109,12 +110,12 @@ class Article extends Model {
         $this->doi_number_number = '367';
         $this->crossref_link = $request->input('ref_link');
         
-        $this->design = $request->input('design');
         $this->summary = $request->input('summary');
         
         $this->type()->sync($request->input('types'));
         $this->classification()->sync($request->input('classification'));
-
+	
+        $this->user_id = Auth::id();
         $author = Author::find($request->input('author'));
         $author->articleAuthor()->save($this);
 

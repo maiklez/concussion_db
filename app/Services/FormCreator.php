@@ -531,7 +531,7 @@ class FormCreator
 	public function affiliationForm($author, $errors){
 		$salida = '';
 
-		$salida = $salida . Form::open(array('url'=>'author/'.$author->id.'/addaffiliation','class'=>'ajax form-horizontal', 'method'=> 'POST'));
+		$salida = $salida . Form::open(array('url'=>'authors/'.$author->id.'/addaffiliation','class'=>'ajax form-horizontal', 'method'=> 'POST'));
 		$salida = $salida . '<input type="hidden" name="_token" value="'. csrf_token() .'" />';
 
 		$error = '';

@@ -154,8 +154,6 @@ class ArticleService
 		//$article->doi_number_number = '367';
 		$article->crossref_link = $firs_row->doi_link;
 		$article->key_finding = $firs_row->key_finding;
-		
-		$article->design = $firs_row->study_design;
 		$article->summary = $firs_row->df_summary;
 		
 		try{
@@ -264,19 +262,13 @@ class ArticleService
     		
             $coauthors = [];
 
-
-
     		$age_ranges=[];
     		$sample_sizes=[];
 
-    		$conclusions = [];
-    		$results = [];
     		$objectives=[];
-    		$comments=[];
 
     		$implications=[];
     		$outcome_measures=[];
-    		$recomendations = [];
 
     		$types=[];
     		$classifications=[];
@@ -303,30 +295,10 @@ class ArticleService
             		array_push($sample_sizes, $samplesize);
             	}
 
-            	if(!is_null($row->conclusions)){
-            		$conclussion = new Conclusion(['conclussion' => $row->conclusions]);
-            		array_push($conclusions, $conclussion);
-            	}
-
-            	if(!is_null($row->study_results)){
-            		$result = new StudyResult	(['result' => $row->study_results, 
-            						'image_link' =>$row->study_result_link ]);
-            		array_push($results, $result);
-            	}
-
+            	
             	if(!is_null($row->objectives)){
             		$objective = new StudyObjectives(['objective'=> $row->objectives]);
             		array_push($objectives, $objective);
-            	}
-
-            	if(!is_null($row->study_recomendations)){
-            		$recomendation = new StudyRecomendations(['recomendations'=> $row->study_recomendations]);
-            		array_push($recomendations, $recomendation);
-            	}
-
-            	if(!is_null($row->authors_comments)){
-            		$comment = new Comments(['comments'=> $row->authors_comments]);
-            		array_push($comments, $comment);
             	}
 
             	if(!is_null($row->implications_of_study)){
@@ -496,21 +468,8 @@ class ArticleService
                                             'cell_value' => count($sample_sizes), 
                                             'text_error' => 'sample_sizes saved '.count($sample_sizes)]));       
 
-            $article->conclusion()->saveMany($conclusions);
-            array_push($errors, new ImportLog(['action' => 'saved', 
-                                            'article_title' => $article->article_title, 
-                                            'cell_type' =>'conclusions', 
-                                            'cell_value' => count($conclusions), 
-                                            'text_error' => 'conclusions saved '.count($conclusions)]));
-            
 
-            $article->results()->saveMany($results);
-            array_push($errors, new ImportLog(['action' => 'saved', 
-                                            'article_title' => $article->article_title, 
-                                            'cell_type' =>'results', 
-                                            'cell_value' => count($results), 
-                                            'text_error' => 'results saved '.count($results)]));
-            
+                         
             $article->objectives()->saveMany($objectives);
             array_push($errors, new ImportLog(['action' => 'saved', 
                                             'article_title' => $article->article_title, 
@@ -518,20 +477,7 @@ class ArticleService
                                             'cell_value' => count($objectives), 
                                             'text_error' => 'objectives saved '.count($objectives)]));
 
-
-            $article->recomendations()->saveMany($recomendations);
-            array_push($errors, new ImportLog(['action' => 'saved', 
-                                            'article_title' => $article->article_title, 
-                                            'cell_type' =>'recomendations', 
-                                            'cell_value' => count($recomendations), 
-                                            'text_error' => 'recomendations saved '.count($recomendations)]));
-
-            $article->comments()->saveMany($comments);
-            array_push($errors, new ImportLog(['action' => 'saved', 
-                                            'article_title' => $article->article_title, 
-                                            'cell_type' =>'comments', 
-                                            'cell_value' => count($comments), 
-                                            'text_error' => 'comments saved '.count($comments)]));
+            
 
             //$article->implications()->saveMany($implications);
             if(count($implications)>0) $article->implications()->sync($implications);            

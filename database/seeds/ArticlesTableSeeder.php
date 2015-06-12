@@ -57,7 +57,6 @@ class ArticlesTableSeeder extends Seeder {
 		$article->doi_number_number = '367';
 		$article->crossref_link = 'http://dx.doi.org/10.1001/jamaneurol.2014.367';
 
-		$article->design = 'Physical and Neuropsychological examination at baseline. Blood samples collected at 1, 12, 36, and 48 hours. For concussed players, additional blood samples collected at 144 hours or the date player returned to unrestricted competition.';
 		$article->summary = 'DF Summary for the article';
         
         //$article->save();
@@ -69,37 +68,6 @@ class ArticlesTableSeeder extends Seeder {
 
         $article->coauthors()->attach($coauthor2);
         $article->coauthors()->attach($coauthor3);
-
-        $conclusions = [
-		    new Conclusion(['conclussion' => 'Plasma levels of T-tau increased in ice hocky players diagnosed with sports-related concussion']),
-		    new Conclusion(['conclussion' => 'T-tau levels were highest immediately after injury, levels declined during first 12h and second peak between 12&36h']),
-		    new Conclusion(['conclussion' => 'T-tau concentration at 1h after concussion predicted days taken for concussion symptoms to resolve and allow safe RTP']),
-   		    new Conclusion(['conclussion' => 'Plasma T-tau is a promising biomarker for use in concussion diagnosis nd in decision making regarding when an atheleter is fit for RTP'])
-
-		];
-
-        $article->conclusion()->saveMany($conclusions);
-
-
-        $results = [
-        	new StudyResult	(['result' => 'No correlation between biomarker levels at baseline and age./n', 
-        						'image_link' =>'' ]),
-			new StudyResult	(['result' => 'T-tau levels were significantly increase in postconcussion samples vs preseason samples (p=0.002). /n', 
-        						'image_link' =>'' ]),
-			new StudyResult	(['result' => 'No significant increase in S-100B in postconcussion samples vs preseason/n', 
-        						'image_link' =>'' ]),
-			new StudyResult	(['result' => 'Levels of T-tau (P<0.001) and S-100B (P<0.001) higher immediately after a concussion vs preseason/n', 
-        						'image_link' =>'' ]),
-			new StudyResult	(['result' => 'Levels of S-100B and NSE, not T-tau, increased after a friendly game without concussion vs baseline/n', 
-        						'image_link' =>'' ]),
-			new StudyResult	(['result' => 'T-tau had an AUC of 0.91 when 1h postconcussion samples were compared with 1h post friendly game/n', 
-        						'image_link' =>'' ]),
-			new StudyResult	(['result' => 'High T-tau levels at 144 hours after concussion correlated with persistence of PCS/n', 
-        						'image_link' =>'' ])	    				
-		];
-
-        $article->results()->saveMany($results);
-
 		
 		$l1 = ImplicationStudyList::find(3);
 		$article->implications()->attach($l1);
@@ -113,7 +81,6 @@ class ArticlesTableSeeder extends Seeder {
 
 		$o2 = OutcomeMeasureList::find(8);
 		$article->outcome_measures()->attach($o2);
-
 
 		//Study objectives
 		$objective = new StudyObjectives(['objective'=> 'To determine whether sports-related concussion is associated with elevated levels of blood biochemical markers of injury to the central nervous system.']);

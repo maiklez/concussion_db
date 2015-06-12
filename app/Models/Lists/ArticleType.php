@@ -6,7 +6,7 @@ class ArticleType extends  MyList{
 
 	protected $table = 'list_article_type';
 
-	public static $COMMENTARY_ID = 2;
+	public static $COMMENTARY_ID = 3;
 	//
 
 	//
@@ -32,7 +32,7 @@ class ArticleType extends  MyList{
 
     public function isCommentary(){
     	//its a commetary on original research
-    	if($this->id == 2 )
+    	if($this->id == $COMMENTARY_ID )
     		return true;
     	else
     		return false;
