@@ -39,7 +39,7 @@ class CreatePapersTable extends Migration {
 			$table->string('doi_number_number')->nullable();
 			$table->string('crossref_link');
 
-			$table->string('key_finding')->nullable();
+			$table->text('key_finding')->nullable();
 
 			$table->text('design')->nullable();
 			$table->text('summary')->nullable();
@@ -130,6 +130,10 @@ class CreatePapersTable extends Migration {
 
 			$table->integer('class_id')->unsigned()->nullable();
 			$table->foreign('class_id')->references('id')->on('list_population_class');
+			
+			$table->string('type_text')->nullable();
+			$table->string('class_text')->nullable();
+			$table->string('other')->nullable();
 
 			$table->timestamps();
 		});
